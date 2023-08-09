@@ -2,13 +2,15 @@
 -- 21g xe 버젼 , "_ORACLE_SCRIPT"=true; 셋 해줘야함.
 --alter session set "_ORACLE_SCRIPT"=true;
 ---- semi 수업실습 계정
-create user khl identified by khl;
-grant connect, resource, dba to khl;
+--create user khl identified by khl;
+--grant connect, resource, dba to khl;
 
 ------- khl 계정
 DROP TABLE "BOARD_READ_RECORD";
+DROP TABLE "ATTACH_FILE";
 DROP TABLE "BOARD";
 DROP TABLE "MEMBER";
+
 
 
 CREATE TABLE "MEMBER" (
@@ -68,6 +70,15 @@ COMMENT ON COLUMN "BOARD_READ_RECORD"."MID" IS '조회한사람';
 COMMENT ON COLUMN "BOARD_READ_RECORD"."READ_DATE" IS '조회시간';
 
 
+CREATE TABLE "ATTACH_FILE" (
+	"FILEPATH"	VARCHAR2(512)		NOT NULL,
+	"BNO"	NUMBER		NOT NULL
+);
+
+COMMENT ON COLUMN "ATTACH_FILE"."FILEPATH" IS '/resources/upload';
+
+COMMENT ON COLUMN "ATTACH_FILE"."BNO" IS 'SEQ_BOARD_BNO사용';
+
 
 -----------------------------------
 ALTER TABLE "BOARD" ADD CONSTRAINT "PK_BOARD" PRIMARY KEY (
@@ -99,3 +110,15 @@ REFERENCES "MEMBER" (
 	"MID"
 );
 
+
+ALTER TABLE "ATTACH_FILE" ADD CONSTRAINT "PK_ATTACH_FILE" PRIMARY KEY (
+	"FILEPATH",
+	"BNO"
+);
+
+ALTER TABLE "ATTACH_FILE" ADD CONSTRAINT "FK_BOARD_TO_ATTACH_FILE_1" FOREIGN KEY (
+	"BNO"
+)
+REFERENCES "BOARD" (
+	"BNO"
+);

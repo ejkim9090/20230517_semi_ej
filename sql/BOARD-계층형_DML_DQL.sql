@@ -64,6 +64,8 @@ select BNO, BTITLE, to_char(BWRITE_DATE, 'yyyy-mm-dd hh24:mi:ss') BWRITE_DATE, M
 commit;
 
 
+select * from attach_file
+;
 
 
 
